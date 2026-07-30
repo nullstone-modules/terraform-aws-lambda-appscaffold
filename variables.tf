@@ -48,7 +48,7 @@ variable "package_type" {
 
 variable "lambda_function_arn" {
   type        = string
-  description = "ARN of the Lambda function. Used to scope the deployer's `lambda:Update*` / `lambda:PublishVersion` grants."
+  description = "ARN of the Lambda function. Used to scope the deployer's `lambda:Update*` / `lambda:PublishVersion` / `lambda:InvokeFunction` grants. The invoke grant also covers the qualified ARN (`<arn>:*`) so a published version or alias can be invoked."
 }
 
 variable "artifacts_bucket_arn" {

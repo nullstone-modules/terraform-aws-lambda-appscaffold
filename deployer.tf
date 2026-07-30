@@ -1,5 +1,6 @@
-# Allows the Nullstone agent to deploy new Lambda function versions and
-# (for `Zip` packaging) upload artifacts to the S3 artifacts bucket.
+# Allows the Nullstone agent to deploy new Lambda function versions,
+# (for `Zip` packaging) upload artifacts to the S3 artifacts bucket,
+# and invoke the function on behalf of `nullstone run`.
 
 resource "aws_iam_role" "deployer" {
   name               = "deployer-${local.resource_name}"
@@ -89,6 +90,20 @@ data "aws_iam_policy_document" "deployer" {
     ]
 
     resources = [var.lambda_function_arn]
+  }
+
+  # `nullstone run` performs a synchronous invocation using these credentials.
+  # The CLI invokes `$LATEST` today; the qualified ARN covers a published
+  # version or alias, which only matches this function -- not its siblings.
+  statement {
+    sid     = "AllowLambdaInvoke"
+    effect  = "Allow"
+    actions = ["lambda:InvokeFunction"]
+
+    resources = [
+      var.lambda_function_arn,
+      "${var.lambda_function_arn}:*",
+    ]
   }
 
   # `Image` packaging: a container-based lambda needs a KMS grant to pull

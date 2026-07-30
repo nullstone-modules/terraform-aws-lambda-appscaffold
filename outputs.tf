@@ -34,7 +34,7 @@ output "deployer" {
     role_arn         = aws_iam_role.deployer.arn
     session_duration = 3600
   }
-  description = "IAM role with permissions to publish new Lambda versions (and, for `Zip` packaging, upload artifacts to the bucket; for `Image` packaging, the KMS grant needed for encrypted ECR pulls). Assumable by the principals in var.op_assumer_arns."
+  description = "IAM role with permissions to publish new Lambda versions and invoke the function (and, for `Zip` packaging, upload artifacts to the bucket; for `Image` packaging, the KMS grant needed for encrypted ECR pulls). Assumable by the principals in var.op_assumer_arns."
 }
 
 output "image_pusher" {
