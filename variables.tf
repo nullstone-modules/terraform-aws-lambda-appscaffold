@@ -32,7 +32,7 @@ variable "tags" {
 
 variable "op_assumer_arns" {
   type        = list(string)
-  description = "ARNs of principals allowed to sts:AssumeRole the deployer and image-pusher roles. Typically `[ns_agent_user_arn]`."
+  description = "ARNs of principals allowed to sts:AssumeRole the scaffolding roles (deployer, image pusher, log reader). Typically `[ns_agent_user_arn]`."
 }
 
 variable "package_type" {

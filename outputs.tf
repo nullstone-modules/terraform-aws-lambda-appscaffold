@@ -24,9 +24,11 @@ output "log_group" {
 }
 
 output "log_reader" {
-  value       = module.logs.reader
-  description = "An AWS User with explicit privilege to read logs from CloudWatch."
-  sensitive   = true
+  value = {
+    role_arn         = module.logs.reader_role_arn
+    session_duration = 3600
+  }
+  description = "IAM role with permissions to read logs and metrics from CloudWatch. Assumable by the principals in var.op_assumer_arns. Not sensitive, so stack members below Architect can stream logs."
 }
 
 output "deployer" {
